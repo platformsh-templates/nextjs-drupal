@@ -1,0 +1,66 @@
+{
+    "environment": "To be defined by environment variable",
+    "production": {
+      "initialized": false
+    },
+    "front_page": "/node",
+    "url": {
+      "base": "To be defined on environment first deployment.",
+      "image_domain": "To be defined on environment first deployment."
+    },
+    "modules": [
+      "next",
+      "next_jsonapi"
+    ],
+    "keys": {
+      "path": "/app/private"
+    },
+    "user": {
+      "id": "nextjs",
+      "uid": "To be defined on project first deployment.",
+      "role": {
+        "id": "nextjs-site",
+        "label": "Next.js Site",
+        "permissions": [
+          "bypass node access",
+          "issue subrequests",
+          "access user profiles"
+        ]
+      }
+    },
+    "nodes": {
+      "type": "article",
+      "pathauto": {
+        "type": "node",
+        "bundle": "article",
+        "label": "Article",
+        "pattern": "/blog/[node:title]"
+      },
+      "dummy": {
+          "data": "platformsh-scripts/demo_nasa_images.json",
+          "num_nodes": 5
+      }
+    },
+    "resolver": {
+      "id": "node.article",
+      "resolver": "site_selector"
+    },
+    "consumer": {
+      "id": "nextjs-site",
+      "uid": "To be defined on environment first deployment.",
+      "label": "Next.js site",
+      "secret": "To be defined on environment first deployment.",
+      "description": "This is the Next.js consumer. It was created programmatically by Platform.sh during the first deploy to configure multi-app. Please do not delete."
+    },
+    "nextjssite": {
+      "id": "blog",
+      "label": "Blog",
+      "preview": {
+        "secret": "To be defined on environment first deployment."
+      },
+      "url": {
+        "base": "To be defined on environment first deployment.",
+        "preview": "To be defined on environment first deployment."
+      }
+    }
+  }
