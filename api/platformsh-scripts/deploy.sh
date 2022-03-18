@@ -64,7 +64,7 @@ fi
 # c. Environment configuration: performed during the first push on a new environment.
 if [ -f "$ENV_SETTINGS" ]; then
 
-    printf "\n* Configuring the environment.\n"
+    printf "* Configuring the environment.\n"
     # 1. Check the current environment and project status.
     PROD_INSTALL=$(cat $ENV_SETTINGS | jq -r '.project.production.installed')
     PREPPED_ENV=$(cat $ENV_SETTINGS | jq -r '.environment.branch')

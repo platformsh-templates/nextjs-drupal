@@ -38,7 +38,7 @@ printf "        * preview_url: $SITE_PREVIEW_URL\n"
 printf "        * preview_secret: $SITE_PREVIEW_SECRET\n"
 
 #   d. Create the site.
-drush scr $DRUPAL_SETUP/03-create-site.php "$SITE_ID" "$SITE_LABEL" "$SITE_ID" "$SITE_BASE_URL" "$SITE_PREVIEW_URL" "$SITE_PREVIEW_SECRET"  
+drush scr $DRUPAL_SETUP/environment/03-create-site.php "$SITE_ID" "$SITE_LABEL" "$SITE_ID" "$SITE_BASE_URL" "$SITE_PREVIEW_URL" "$SITE_PREVIEW_SECRET"  
 
 # 2. Configure previews.
 printf "    ✔ Configuring previews (see https://next-drupal.org/learn/quick-start/configure-content-types).\n"
@@ -47,4 +47,4 @@ PREVIEW_RESOLVER=$(cat $ENV_SETTINGS | jq -r '.environment.site.resolver.type')
 printf "        * site: $SITE_ID\n"
 printf "        * id: $PREVIEW_ID\n"
 printf "        * site_resolver: $PREVIEW_RESOLVER\n"
-drush scr $DRUPAL_SETUP/drupal_config_previews.php "$PREVIEW_ID" "$PREVIEW_RESOLVER" "$SITE_ID"
+drush scr $DRUPAL_SETUP/environment/drupal_config_previews.php "$PREVIEW_ID" "$PREVIEW_RESOLVER" "$SITE_ID"
