@@ -33,7 +33,7 @@ echo $UPDATED_DATA > $ENV_SETTINGS
 
 # b. Track the overall installation. 
 if [[ "$PLATFORM_ENVIRONMENT_TYPE" == "production" ]] || [[ "$PLATFORM_BRANCH" == "pr-1" ]] ; then
-    echo "    ✔ Logging production installation\n"
+    printf "    ✔ Logging production installation\n"
     SETTINGS_UPDATES=$(jq '.project.production.installed = true' $ENV_SETTINGS)
     echo $SETTINGS_UPDATES > $ENV_SETTINGS
 fi

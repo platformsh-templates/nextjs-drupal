@@ -2,6 +2,9 @@
 
 use Drupal\consumers\Entity\Consumer;
 
+// CONSUMER_UUID=$(drush scr $DRUPAL_SETUP/environment/02-create-consumer.php "$CONSUMER_USER_UID" "$CONSUMER_ID" "$CONSUMER_LABEL" "$CONSUMER_DESC" "$CONSUMER_SITE" "$CONSUMER_SECRET")
+
+
 $user_id = $extra[0];
 $id = $extra[1];
 $label = $extra[2];

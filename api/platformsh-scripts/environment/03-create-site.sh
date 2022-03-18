@@ -16,9 +16,8 @@ echo $UPDATED_DATA > $ENV_SETTINGS
 
 #   b. Grab the frontend URL defined in .environment to track base, preview, and image_domain urls.
 # Here's another approach that doesn't rely on .environment - maybe I'm confused here from frontend/backend urls.
-# ENVIRONMENT=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id == "api") | .key')
-# DRUPAL_URL=${ENVIRONMENT%/}
-SITE_BASE_URL=$FRONTEND_URL
+ENVIRONMENT=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id == "api") | .key')
+SITE_BASE_URL=${ENVIRONMENT%/}
 UPDATED_DATA=$(jq --arg SITE_BASE_URL "$SITE_BASE_URL" '.environment.site.url.base = $SITE_BASE_URL' $ENV_SETTINGS)
 echo $UPDATED_DATA > $ENV_SETTINGS
 SITE_PREVIEW_URL=$SITE_BASE_URL/api/preview
@@ -38,7 +37,7 @@ printf "        * preview_url: $SITE_PREVIEW_URL\n"
 printf "        * preview_secret: $SITE_PREVIEW_SECRET\n"
 
 #   d. Create the site.
-drush scr $DRUPAL_SETUP/environment/03-create-site.php "$SITE_ID" "$SITE_LABEL" "$SITE_ID" "$SITE_BASE_URL" "$SITE_PREVIEW_URL" "$SITE_PREVIEW_SECRET"  
+drush scr $DRUPAL_SETUP/environment/03-create-site.php "$SITE_ID" "$SITE_LABEL" "$SITE_BASE_URL" "$SITE_PREVIEW_URL" "$SITE_PREVIEW_SECRET"  
 
 # 2. Configure previews.
 printf "    ✔ Configuring previews (see https://next-drupal.org/learn/quick-start/configure-content-types).\n"
