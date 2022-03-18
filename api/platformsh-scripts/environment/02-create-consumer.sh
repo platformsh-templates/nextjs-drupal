@@ -20,9 +20,9 @@ CONSUMER_ID=$(cat $ENV_SETTINGS | jq -r '.environment.consumer.id')
 printf "        * consumer_id: $CONSUMER_ID\n"
 CONSUMER_LABEL=$(cat $ENV_SETTINGS | jq -r '.environment.consumer.label')
 printf "        * consumer_label: $CONSUMER_LABEL\n"
-CONSUMER_DESC=$(cat $ENV_SETTINGS | jq -r '.environment.consumer.description')
-CONSUMER_SITE=$(cat $ENV_SETTINGS | jq -r '.environment.consumer.site')
+CONSUMER_SITE=$(cat $ENV_SETTINGS | jq -r '.project.consumer.role.id')
 printf "        * consumer_site: $CONSUMER_SITE\n"
+CONSUMER_DESC=$(cat $ENV_SETTINGS | jq -r '.environment.consumer.description')
 
 #   b. Use Platform.sh built-in variable PLATFORM_PROJECT_ENTROPY for the consumer secret, and keep track of that value for later.
 CONSUMER_SECRET=$PLATFORM_PROJECT_ENTROPY

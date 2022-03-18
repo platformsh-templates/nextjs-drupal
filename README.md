@@ -18,12 +18,3 @@ Creating environment pr-1
             * pass: PASSWORD-GENERATED-HERE-ON-FIRST-PUSH
         ✗ WARNING: Update your password and email immediately. They will only be available once.
 ```
-
-
-1. Create consumer: user seems to have registered fine, but the scope section is not checked off
-1. creating the next js site is all jumbled
-    - label: fine
-    - base_url: site id/machine name
-    - preview url: frontend base url
-    - preview secret: preview url
-1. 
