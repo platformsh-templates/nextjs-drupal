@@ -33,7 +33,7 @@ echo $UPDATED_DATA > $ENV_SETTINGS
 
 # b. Track the overall installation. 
 if [[ "$PLATFORM_ENVIRONMENT_TYPE" == "production" ]] || [[ "$PLATFORM_BRANCH" == "pr-1" ]] ; then
-    echo "    ✔ Logging production installation"
+    echo "    ✔ Logging production installation\n"
     SETTINGS_UPDATES=$(jq '.project.production.installed = true' $ENV_SETTINGS)
     echo $SETTINGS_UPDATES > $ENV_SETTINGS
 fi
@@ -63,7 +63,9 @@ DRUPAL_PREVIEW_SECRET=$DRUPAL_PREVIEW_SECRET
 DRUPAL_CLIENT_ID=$DRUPAL_CLIENT_ID
 DRUPAL_CLIENT_SECRET=$DRUPAL_CLIENT_SECRET
 " > $VARS_LOCAL
-printf "$SPLIT_LINE\n$(cat $VARS_LOCAL)\n$SPLIT_LINE\n"
+echo $SPLIT_LINE
+printf "$(cat $VARS_LOCAL)\n"
+echo $SPLIT_LINE
 
 # c. Create the .environment file the Platform.sh environment will use.
 printf "* Writing remote configuration.\n"
@@ -78,4 +80,6 @@ export DRUPAL_PREVIEW_SECRET=$DRUPAL_PREVIEW_SECRET
 export DRUPAL_CLIENT_ID=$DRUPAL_CLIENT_ID
 export DRUPAL_CLIENT_SECRET=$DRUPAL_CLIENT_SECRET
 " > $VARS_PSH
-printf "$SPLIT_LINE\n$(cat $VARS_PSH)\n$SPLIT_LINE\n"
+echo $SPLIT_LINE
+printf "$(cat $VARS_PSH)\n"
+echo $SPLIT_LINE
