@@ -62,35 +62,35 @@ else
 fi
 ########################################################################################################################
 # c. Environment configuration: performed during the first push on a new environment.
-# if [ -f "$ENV_SETTINGS" ]; then
+if [ -f "$ENV_SETTINGS" ]; then
 
-#     printf "\n* Configuring the environment.\n"
-#     # 1. Check the current environment and project status.
-#     PROD_INSTALL=$(cat $ENV_SETTINGS | jq -r '.project.production.installed')
-#     PREPPED_ENV=$(cat $ENV_SETTINGS | jq -r '.environment.branch')
+    printf "\n* Configuring the environment.\n"
+    # 1. Check the current environment and project status.
+    PROD_INSTALL=$(cat $ENV_SETTINGS | jq -r '.project.production.installed')
+    PREPPED_ENV=$(cat $ENV_SETTINGS | jq -r '.environment.branch')
 
-#     # 2. Run setup if a) very first project deploy on production environment, or b) first deploy on a new environment.
-#     if [ "$PROD_INSTALL" = false ]  || [ "$PREPPED_ENV" != "$PLATFORM_BRANCH" ]; then
+    # 2. Run setup if a) very first project deploy on production environment, or b) first deploy on a new environment.
+    if [ "$PROD_INSTALL" = false ]  || [ "$PREPPED_ENV" != "$PLATFORM_BRANCH" ]; then
 
-#         # a. Clear the previous environment's configuration.
-#         ./$DRUPAL_SETUP/environment/01-reset-config.sh "$PROD_INSTALL" "$PREPPED_ENV"
+        # a. Clear the previous environment's configuration.
+        $DRUPAL_SETUP/environment/01-reset-config.sh "$PROD_INSTALL" "$PREPPED_ENV"
 
-#         # b. Generate keys and create the consumer.
-#         ./$DRUPAL_SETUP/environment/02-create-consumer.sh
+        # b. Generate keys and create the consumer.
+        $DRUPAL_SETUP/environment/02-create-consumer.sh
 
-#         # c. Create Next.js site consumer and configure previews.
-#         ./$DRUPAL_SETUP/environment/03-create-site.sh
+        # c. Create Next.js site consumer and configure previews.
+        $DRUPAL_SETUP/environment/03-create-site.sh
 
-#         # d. Track the installation and configure the frontend.
-#         ./$DRUPAL_SETUP/environment/04-track-environment.sh
+        # d. Track the installation and configure the frontend.
+        $DRUPAL_SETUP/environment/04-track-environment.sh
 
-#     else
-#         printf "\n* Environment already prepped for frontend. Skipping setup.\n"
-#     fi
-# else
-#     printf "\n✗ Something went wrong during the installation phase. Investigate!\033"
-#     exit 1
-# fi
+    else
+        printf "\n* Environment already prepped for frontend. Skipping setup.\n"
+    fi
+else
+    printf "\n✗ Something went wrong during the installation phase. Investigate!\033"
+    exit 1
+fi
 ########################################################################################################################
 # d. Drupal tasks: performed on every deployment.
 drush -q -y cache-rebuild
