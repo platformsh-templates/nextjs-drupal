@@ -18,6 +18,7 @@
 #       of frontend consumers simply by defining a mount. This may change, but seemed like the best option currently. 
 #
 ########################################################################################################################
+SPLIT_LINE="-------------------------------------------------------------------------------------------------------------"
 # 1. Track the latest changes to the environment.
 
 # a. Get the current environment's frontend url from its id ('client').
@@ -62,7 +63,7 @@ DRUPAL_PREVIEW_SECRET=$DRUPAL_PREVIEW_SECRET
 DRUPAL_CLIENT_ID=$DRUPAL_CLIENT_ID
 DRUPAL_CLIENT_SECRET=$DRUPAL_CLIENT_SECRET
 " > $VARS_LOCAL
-printf "\n$(cat $VARS_LOCAL)\n"
+printf "$SPLIT_LINE\n$(cat $VARS_LOCAL)\n$SPLIT_LINE\n"
 
 # c. Create the .environment file the Platform.sh environment will use.
 printf "* Writing remote configuration.\n"
@@ -77,4 +78,4 @@ export DRUPAL_PREVIEW_SECRET=$DRUPAL_PREVIEW_SECRET
 export DRUPAL_CLIENT_ID=$DRUPAL_CLIENT_ID
 export DRUPAL_CLIENT_SECRET=$DRUPAL_CLIENT_SECRET
 " > $VARS_PSH
-printf "\n$(cat $VARS_PSH)\n"
+printf "$SPLIT_LINE\n$(cat $VARS_PSH)\n$SPLIT_LINE\n"

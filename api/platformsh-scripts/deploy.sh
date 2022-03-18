@@ -85,10 +85,10 @@ if [ -f "$ENV_SETTINGS" ]; then
         $DRUPAL_SETUP/environment/04-track-environment.sh
 
     else
-        printf "\n* Environment already prepped for frontend. Skipping setup.\n"
+        printf "* Environment already prepped for frontend. Skipping setup.\n"
     fi
 else
-    printf "\n✗ Something went wrong during the installation phase. Investigate!\033"
+    printf "✗ Something went wrong during the installation phase. Investigate!\033"
     exit 1
 fi
 ########################################################################################################################

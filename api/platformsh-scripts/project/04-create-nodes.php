@@ -12,7 +12,7 @@ $start = 0;
 $count = $extra[1];
 for ($i = $start; $i < $count; $i++) {
     $title = $obj[$i]->title;
-    print "        * node $i: $title";
+    print "        * node $i: $title\n";
     $image_url = $obj[$i]->hdurl;
     $arrayString= explode("/", $obj[$i]->hdurl );
 
