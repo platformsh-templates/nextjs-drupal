@@ -5,17 +5,14 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "preview": "next build && next start",
-    "build": "next build",
-    "start": "next start"
+    "preview": "next build && next start"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.0",
     "next": "^12.0.7",
     "next-drupal": "^1.1.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "sharp": "^0.30.1"
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.0",

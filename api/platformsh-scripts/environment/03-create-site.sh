@@ -15,15 +15,17 @@ UPDATED_DATA=$(jq --arg SITE_PREVIEW_SECRET "$SITE_PREVIEW_SECRET" '.environment
 echo $UPDATED_DATA > $ENV_SETTINGS
 
 #   b. Grab the frontend URL defined in .environment to track base, preview, and image_domain urls.
-ENVIRONMENT=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id == "client") | .key')
-SITE_BASE_URL=${ENVIRONMENT%/}
+DRUPAL_ENVIRONMENT=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id == "api") | .key')
+SITE_BASE_URL=${DRUPAL_ENVIRONMENT%/}
 UPDATED_DATA=$(jq --arg SITE_BASE_URL "$SITE_BASE_URL" '.environment.site.url.base = $SITE_BASE_URL' $ENV_SETTINGS)
-echo $UPDATED_DATA > $ENV_SETTINGS
-SITE_PREVIEW_URL=$SITE_BASE_URL/api/preview
-UPDATED_DATA=$(jq --arg SITE_PREVIEW_URL "$SITE_PREVIEW_URL" '.environment.site.url.preview = $SITE_PREVIEW_URL' $ENV_SETTINGS)
 echo $UPDATED_DATA > $ENV_SETTINGS
 IMAGE_DOMAIN="${SITE_BASE_URL:8}"
 UPDATED_DATA=$(jq --arg IMAGE_DOMAIN "$IMAGE_DOMAIN" '.environment.site.url.image_domain = $IMAGE_DOMAIN' $ENV_SETTINGS)
+echo $UPDATED_DATA > $ENV_SETTINGS
+NEXTJS_ENVIRONMENT=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id == "client") | .key')
+SITE_BASE_URL=${NEXTJS_ENVIRONMENT%/}
+SITE_PREVIEW_URL=$SITE_BASE_URL/api/preview
+UPDATED_DATA=$(jq --arg SITE_PREVIEW_URL "$SITE_PREVIEW_URL" '.environment.site.url.preview = $SITE_PREVIEW_URL' $ENV_SETTINGS)
 echo $UPDATED_DATA > $ENV_SETTINGS
 
 #   c. Pull out other related settings.
