@@ -1,0 +1,44 @@
+# The name of this app. Must be unique within a project.
+name: nextjs
+
+# Any type will work. There is no "plain HTML" type.
+type: "python:3.7"
+
+# There is no need for a writable file mount, so set it to the smallest possible size.
+disk: 256
+
+# Configure the web server to serve our static site.
+web:
+    commands:
+        # Run a no-op process that uses no CPU resources, since this is a static site.
+        start: sleep infinity
+
+    locations:
+        # This tells Nginx to serve from the base directory
+        "/":
+            root: "web"
+            index:
+                - "index.html"
+mounts:
+  # /web/sites/default/files:
+  #   source: local
+  #   source_path: 'files'
+  # /tmp:
+  #   source: local
+  #   source_path: 'tmp'
+  # /private:
+  #   source: local
+  #   source_path: 'private'
+  # /.drush:
+  #   source: local
+  #   source_path: 'drush'
+  # /drush-backups:
+  #   source: local
+  #   source_path: 'drush-backups'
+  # /.console:
+  #   source: local
+  #   source_path: 'console'
+  deploy:
+    source: service
+    service: files
+    source_path: deploy
