@@ -47,4 +47,4 @@ PREVIEW_RESOLVER=$(cat $ENV_SETTINGS | jq -r '.environment.site.resolver.type')
 printf "        * site: $SITE_ID\n"
 printf "        * id: $PREVIEW_ID\n"
 printf "        * site_resolver: $PREVIEW_RESOLVER\n"
-drush scr $DRUPAL_SETUP/environment/drupal_config_previews.php "$PREVIEW_ID" "$PREVIEW_RESOLVER" "$SITE_ID"
+drush scr $DRUPAL_SETUP/environment/03-configure-previews.php "$PREVIEW_ID" "$PREVIEW_RESOLVER" "$SITE_ID"

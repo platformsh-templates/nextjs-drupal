@@ -19,3 +19,5 @@ export FRONTEND_URL=$(echo $FRONTEND_URL | awk -v var=$stringlen '{ string=subst
 export DRUPAL_SETUP=$PLATFORM_APP_DIR/platformsh-scripts
 export INITIAL_DEMO_SETTINGS=$DRUPAL_SETUP/settings.default.json
 export ENV_SETTINGS=$PLATFORM_APP_DIR/deploy/settings.json
+export VARS_LOCAL=$HOME/deploy/platformsh.env
+export VARS_PSH=$HOME/deploy/platformsh.environment
