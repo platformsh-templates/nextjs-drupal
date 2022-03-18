@@ -3,10 +3,10 @@
 use Drupal\pathauto\Entity\PathautoPattern;
 // Reference: https://git.drupalcode.org/project/pathauto/-/blob/8.x-1.x/pathauto.install
 
-$entity_type = 'node';
-$bundle = 'article';
-$entity_label = 'Article';
-$entity_pattern = '/blog/[node:title]';
+$entity_type = $extra[0];
+$bundle = $extra[1];
+$entity_label = $extra[2];
+$entity_pattern = $extra[3];
 
 $pattern = PathautoPattern::create([
     'id' => $entity_type,

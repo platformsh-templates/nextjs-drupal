@@ -4,16 +4,14 @@ use \Drupal\node\Entity\Node;
 use \Drupal\file\Entity\File;
 
 // Use NASA Astronomy Picture of the Day data (https://apod.nasa.gov/apod/astropix.html),
-//      generated via api.nasa.gov, to create dummy nodes (max 43).
-$file = 'nasa_images.json'; 
-$data = file_get_contents($file); 
+//      generated via api.nasa.gov, to create dummy nodes.
+$file = $extra[0];
+$data = file_get_contents($file, FILE_USE_INCLUDE_PATH); 
 $obj = json_decode($data); 
 $start = 0;
-$count = 10;
-echo "- Creating dummy article nodes from NASA Astronomy Picture of the Day\n";
+$count = $extra[1];
 for ($i = $start; $i < $count; $i++) {
     $title = $obj[$i]->title;
-    echo "  > ($i/$count) $title\n";
     $image_url = $obj[$i]->hdurl;
     $arrayString= explode("/", $obj[$i]->hdurl );
 

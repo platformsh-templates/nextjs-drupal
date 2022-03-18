@@ -2,6 +2,10 @@ name: 'drupal'
 
 type: 'php:8.1'
 
+variables:
+  env: 
+    CREATE_DEMO_NODES: true
+
 dependencies:
   php:
     composer/composer: '^2'

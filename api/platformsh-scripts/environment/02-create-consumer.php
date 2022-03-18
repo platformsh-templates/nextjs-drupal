@@ -2,13 +2,12 @@
 
 use Drupal\consumers\Entity\Consumer;
 
-$id = 'nextjs-site';
-$label = 'Next.js site';
-$description = "This is the Next.js consumer. This was created programmatically by Platform.sh during the first deploy to configure multi-app. Please do not delete.";
-
 $user_id = $extra[0];
-$secret = $extra[1];
-$site = "nextjs site";
+$id = $extra[1];
+$label = $extra[2];
+$description = $extra[3];
+$site = $extra[4];
+$secret = $extra[5];
 
 $site = Consumer::create([
     'id'                => $id,

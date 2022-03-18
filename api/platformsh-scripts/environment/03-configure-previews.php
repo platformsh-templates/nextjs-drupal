@@ -2,9 +2,10 @@
 
 use Drupal\next\Entity\NextEntityTypeConfig;
 
-$id = 'node.article';
-$site_resolver = 'site_selector';
-$site = 'blog';
+$id = $extra[0];
+$site_resolver = $extra[1];
+$site = $extra[2];
+
 $entity_type_config = NextEntityTypeConfig::create([
     'id'                => $id,
     'site_resolver'     => $site_resolver,
