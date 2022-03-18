@@ -19,10 +19,9 @@ build:
   flavor: composer
 
 hooks:
-    deploy: ./platformsh-scripts/deploy.sh
-    # deploy: !include
-    #   type: string
-    #   path: platformsh-scripts/deploy.sh
+    deploy: !include
+      type: string
+      path: platformsh-scripts/deploy.sh
 
 relationships:
   database: 'db:mysql'
