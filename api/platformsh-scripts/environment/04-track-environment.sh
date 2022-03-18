@@ -40,7 +40,7 @@ fi
 # 2. Generate the .env files that will be needed on Platform.sh environments and local development.
 
 # a. Organize everything we need.
-printf "\n* Preparing credentials to hand off to frontend container.\n"
+printf "* Preparing credentials to hand off to frontend container.\n"
 NEXT_PUBLIC_DRUPAL_BASE_URL=$(cat $ENV_SETTINGS | jq -r '.environment.site.url.base')
 NEXT_IMAGE_DOMAIN=$(cat $ENV_SETTINGS | jq -r '.environment.site.url.image_domain')
 DRUPAL_SITE_ID=$(cat $ENV_SETTINGS | jq -r '.environment.site.id')
