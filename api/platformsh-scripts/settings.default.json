@@ -9,7 +9,7 @@
         ],
         "consumer": {
             "role": {
-                "id": "oauth-consumer-role",
+                "id": "oauth_consumer_role",
                 "label": "OAuth Consumer Role",
                 "permissions": [
                     "bypass node access",
@@ -18,7 +18,7 @@
                 ]
             },
             "user": {
-                "id": "oauth-consumer-user",
+                "id": "oauth_consumer_user",
                 "uid": null
             }
         },
@@ -31,7 +31,7 @@
             },
             "demo": {
                 "data": "04-dummy-nodes.json",
-                "num_nodes": 15
+                "num_nodes": 5
             }
         }
     },
@@ -39,7 +39,7 @@
         "branch": null,
         "key_path": "/app/private",
         "consumer": {
-            "id": "oauth-consumer-env",
+            "id": "oauth_consumer_env",
             "uid": null,
             "secret": null,
             "label": "Next.js OAuth Env Consumer",
@@ -47,7 +47,7 @@
             "site": "Next.js OAuth Env Consumer Site"
         },
         "site": {
-            "id": "nextjs-site",
+            "id": "nextjs_site",
             "label": "Next.js Site",
             "front_page": "/node",
             "resolver": {

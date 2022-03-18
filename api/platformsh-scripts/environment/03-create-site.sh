@@ -15,8 +15,7 @@ UPDATED_DATA=$(jq --arg SITE_PREVIEW_SECRET "$SITE_PREVIEW_SECRET" '.environment
 echo $UPDATED_DATA > $ENV_SETTINGS
 
 #   b. Grab the frontend URL defined in .environment to track base, preview, and image_domain urls.
-# Here's another approach that doesn't rely on .environment - maybe I'm confused here from frontend/backend urls.
-ENVIRONMENT=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id == "api") | .key')
+ENVIRONMENT=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id == "client") | .key')
 SITE_BASE_URL=${ENVIRONMENT%/}
 UPDATED_DATA=$(jq --arg SITE_BASE_URL "$SITE_BASE_URL" '.environment.site.url.base = $SITE_BASE_URL' $ENV_SETTINGS)
 echo $UPDATED_DATA > $ENV_SETTINGS
