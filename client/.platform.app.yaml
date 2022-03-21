@@ -32,18 +32,16 @@ hooks:
     post_deploy: |
         # 3. Rebuild now that the backend is available.
         . deploy/platformsh.environment
-        cd platformsh-scripts/test/next-drupal-debug
-        yarn debug
-        cd $PLATFORM_APP_DIR
-        yarn build
+        cd platformsh-scripts/test/next-drupal-debug && yarn debug
+        cd $PLATFORM_APP_DIR && yarn build
 web:
     commands:
         start: |
             # 2. Build the site and start the pm2 process, watching for changes brought by post_deploy.
             . deploy/platformsh.environment
-            # yarn build
+            yarn build
             APP=$(cat package.json | jq -r '.name')
-            pm2 start npm --no-daemon --watch --name $APP -- preview -- -p $PORT
+            pm2 start npm --no-daemon --watch --name $APP -- start -- -p $PORT
 disk: 512
 
 mounts:
