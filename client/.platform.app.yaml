@@ -41,7 +41,7 @@ web:
         start: |
             # 2. Build the site and start the pm2 process, watching for changes brought by post_deploy.
             . deploy/platformsh.environment
-            yarn build
+            # yarn build
             APP=$(cat package.json | jq -r '.name')
             pm2 start npm --no-daemon --watch --name $APP -- preview -- -p $PORT
 disk: 512
