@@ -5,11 +5,13 @@
 # This script actually creates the OAuth consumer that will be used for the current environment.
 #
 ########################################################################################################################
-# 1. Generate keys.
+# 1. Generate keys, and update simple oauth settings.
 KEY_LOCATION=$(cat $ENV_SETTINGS | jq -r '.environment.key_path')
 printf "    ✔ Generating keys (see https://next-drupal.org/learn/quick-start/create-consumer).\n"
 printf "        * location: $KEY_LOCATION\n"
 drush -q simple-oauth:generate-keys $KEY_LOCATION
+drush config:set simple_oauth.settings public_key $KEY_LOCATION/public.key -y
+drush config:set simple_oauth.settings private_key $KEY_LOCATION/private.key -y
 
 # 2. Create the OAuth consumer.
 #   a. Get values from environment settings file.
