@@ -1,11 +1,25 @@
 # The name of this app. Must be unique within a project.
 name: nextjs
 
-# Any type will work. There is no "plain HTML" type.
-type: "python:3.7"
+type: 'nodejs:14'
+
+dependencies:
+    nodejs:
+        yarn: "1.22.17"
+        pm2: "5.2.0"
 
 # There is no need for a writable file mount, so set it to the smallest possible size.
 disk: 256
+
+hooks:
+    build: |
+        cd platformsh-scripts/test/next-drupal-debug
+        yarn --frozen-lockfile
+    post_deploy: |
+        cd platformsh-scripts/test/next-drupal-debug
+        yarn debug
+
+
 
 # Configure the web server to serve our static site.
 web:

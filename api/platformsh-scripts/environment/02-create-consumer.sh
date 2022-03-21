@@ -9,6 +9,8 @@
 KEY_LOCATION=$(cat $ENV_SETTINGS | jq -r '.environment.key_path')
 printf "    ✔ Generating keys (see https://next-drupal.org/learn/quick-start/create-consumer).\n"
 printf "        * location: $KEY_LOCATION\n"
+printf "        * public_key: $KEY_LOCATION/public.key\n"
+printf "        * private_key: $KEY_LOCATION/private.key\n"
 drush -q simple-oauth:generate-keys $KEY_LOCATION
 drush config:set simple_oauth.settings public_key $KEY_LOCATION/public.key -y
 drush config:set simple_oauth.settings private_key $KEY_LOCATION/private.key -y
