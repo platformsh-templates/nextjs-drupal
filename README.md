@@ -26,10 +26,16 @@ From this, you can log into Drupal using the credentials listed (`admin`/`PASSWO
 --------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------
 
-One of two things are happening
+Remaining
 
-- generate keys: configuration actually needs to be saved when keys are generated
-- nextjs site: uses localhost in docs, not identical to local app
+- README general
+- template.yaml
+- First push: i have no idea how to get this to work on the first push without a redeploy. It may not actually be possible. 
 
---------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------
+- Local
+  - Drupal
+    - Lando
+    - DDEV
+  - Next.js
+    - local Drupal
+    - remove environment
