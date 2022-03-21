@@ -22,7 +22,7 @@ build:
 hooks:
     deploy: !include
       type: string
-      path: platformsh-scripts/deploy.sh
+      path: platformsh-scripts/hooks.deploy.sh
 
 relationships:
   database: 'db:mysql'

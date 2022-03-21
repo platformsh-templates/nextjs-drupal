@@ -1,8 +1,11 @@
+// This package in its original form can be found at https://github.com/shadcn/next-drupal-debug. 
+//  The only changes have been to use environment variables to retrieve the test parameters, 
+//  which makes it easier to run this check across environments on Platform.sh.
 import fetch from "node-fetch"
 
-const NEXT_PUBLIC_DRUPAL_BASE_URL = "https://api.pr-1-djjnuwy-65o73exizvbli.eu-3.platformsh.site"
-const DRUPAL_CLIENT_ID = "1b98aa27-c9d1-4366-88cf-823e796061a3"
-const DRUPAL_CLIENT_SECRET = "WXNKNJNF26GLM5Q3VZB56Y4SUZOVXPCEZUXKBSQ7VJESHT67FELA===="
+const NEXT_PUBLIC_DRUPAL_BASE_URL = process.env.NEXT_PUBLIC_DRUPAL_BASE_URL;
+const DRUPAL_CLIENT_ID = process.env.DRUPAL_CLIENT_ID;
+const DRUPAL_CLIENT_SECRET = process.env.DRUPAL_CLIENT_SECRET
 
 const basic = Buffer.from(
   `${DRUPAL_CLIENT_ID}:${DRUPAL_CLIENT_SECRET}`
