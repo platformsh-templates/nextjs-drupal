@@ -9,7 +9,7 @@
 ########################################################################################################################
 # Rebuild now that the backend is available.
 #   a. Source the relevant environment variables.
-. deploy/platformsh.environment
+. $GENERATED_VARS
 #   b. Verify the connection to the backend can be made with those variables.
 cd platformsh-scripts/test/next-drupal-debug && yarn debug
 #   c. Build the frontend.

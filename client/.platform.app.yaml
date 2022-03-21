@@ -3,6 +3,10 @@ name: nextjs
 
 type: 'nodejs:14'
 
+variables:
+  env: 
+    GENERATED_VARS: 'deploy/platformsh.environment'
+
 dependencies:
     nodejs:
         yarn: "1.22.17"

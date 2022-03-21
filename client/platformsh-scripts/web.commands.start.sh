@@ -7,8 +7,10 @@
 #
 ########################################################################################################################
 # Build the site and start the pm2 process, watching for changes brought by post_deploy.
-#   a. Source the relevant environment variables.
-. deploy/platformsh.environment
+#   a. Source the relevant environment variables if available (after the first push).
+if [ -f "$GENERATED_VARS" ]; then
+    . $GENERATED_VARS
+fi
 #   b. Build the frontend.
 yarn build
 #   c. Get the frontend app name, and start a daemon that watches for changes.
