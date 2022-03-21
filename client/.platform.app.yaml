@@ -3,10 +3,6 @@ name: nextjs
 
 type: 'nodejs:14'
 
-variables:
-  env: 
-    GENERATED_VARS: 'deploy/platformsh.environment'
-
 dependencies:
     nodejs:
         yarn: "1.22.17"
@@ -18,6 +14,7 @@ build:
 variables:
     env:
         NODE_OPTIONS: --max-old-space-size=1536
+        GENERATED_VARS: 'deploy/platformsh.environment'
 
 size: L
 
