@@ -582,14 +582,14 @@ When a new environment is created, the deploy hook will look like the below in t
       * consumer_id: oauth_consumer_env
       * consumer_label: Next.js OAuth Env Consumer
       * consumer_site: oauth_consumer_role
-      * consumer_secret: WXNKNJNF26GLM5Q3VZB56Y4SUZOVXPCEZUXKBSQ7VJESHT67FELA====
-      * consumer_uid: f48783e1-8dfb-4e49-92a5-086f38403edc
+      * consumer_secret: SOME_SECRET
+      * consumer_uid: SOME_ID
    ✔ Creating the NextJS site entity (see https://next-drupal.org/learn/quick-start/create-nextjs-site).
       * id: nextjs_site
       * label: Next.js Site
-      * base_url: https://something-h7e3nci-65o73exizvbli.eu-3.platformsh.site
-      * preview_url: https://something-h7e3nci-65o73exizvbli.eu-3.platformsh.site/api/preview
-      * preview_secret: something-h7e3nci
+      * base_url: https://ENVIRONMENT-HASH-PROJECT_ID.eu-3.platformsh.site
+      * preview_url: https://ENVIRONMENT-HASH-PROJECT_ID.eu-3.platformsh.site/api/preview
+      * preview_secret: ENVIRONMENT-HASH
    ✔ Configuring previews (see https://next-drupal.org/learn/quick-start/configure-content-types).
       * site: nextjs_site
       * id: node.article
