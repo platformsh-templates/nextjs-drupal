@@ -1,7 +1,7 @@
 const http = require("http");
 
-const projectID = `65o73exizvbli`;
-const environment = `master`;
+const projectID = `${process.env.PLATFORM_PROJECT}`;
+const environment = `${process.env.PLATFORM_BRANCH}`;
 const redeployLink = `https://console.platform.sh/projects/${projectID}/${environment}/actions/redeploy`;
 
 const outputString = `
