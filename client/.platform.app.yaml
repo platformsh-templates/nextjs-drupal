@@ -33,6 +33,7 @@ hooks:
         yarn --frozen-lockfile
     post_deploy: |
         # Verify the connection to the backend can be made with those variables.
+        . $GENERATED_VARS
         cd platformsh-scripts/test/next-drupal-debug && yarn debug
         # Build the frontend.
         cd $PLATFORM_APP_DIR && yarn build
@@ -41,12 +42,10 @@ web:
     commands:
         start: |
             # Maybe since we're foregoing the first deploy, yarn start is good enough.
-            echo "Restarting the container..."
             if [ -f "$GENERATED_VARS" ]; then
-                # Source environment variables, get the frontend app name, and start a daemon that watches for changes.
+                # Source environment variables, build the frontend, and start the server.
                 . $GENERATED_VARS
-                # APP=$(cat package.json | jq -r '.name')
-                # pm2 start npm --no-daemon --watch --name $APP -- start -- -p $PORT
+                yarn build
                 yarn start
             else
                 # On the first deploy, display next steps page.

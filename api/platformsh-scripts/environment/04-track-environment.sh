@@ -52,8 +52,8 @@ DRUPAL_CLIENT_SECRET=$(cat $ENV_SETTINGS | jq -r '.environment.consumer.secret')
 
 # b. Create the .env file used for local development.
 printf "* Writing local configuration.\n"
-printf "# This .env file is generated programmatically within the backend Drupal app for each Platform.sh environment
-# and stored within an network storage mount so it can be used locally.
+printf "# This .environment file is generated programmatically within the backend Drupal app for each Platform.sh
+# environment and stored within an network storage mount so it can be used locally.
 
 NEXT_PUBLIC_DRUPAL_BASE_URL=$NEXT_PUBLIC_DRUPAL_BASE_URL
 NEXT_IMAGE_DOMAIN=$NEXT_IMAGE_DOMAIN

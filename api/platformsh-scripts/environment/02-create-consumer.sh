@@ -12,8 +12,8 @@ printf "        * location: $KEY_LOCATION\n"
 printf "        * public_key: $KEY_LOCATION/public.key\n"
 printf "        * private_key: $KEY_LOCATION/private.key\n"
 drush -q simple-oauth:generate-keys $KEY_LOCATION
-drush config:set simple_oauth.settings public_key $KEY_LOCATION/public.key -y
-drush config:set simple_oauth.settings private_key $KEY_LOCATION/private.key -y
+drush -q config:set simple_oauth.settings public_key $KEY_LOCATION/public.key -y
+drush -q config:set simple_oauth.settings private_key $KEY_LOCATION/private.key -y
 
 # 2. Create the OAuth consumer.
 #   a. Get values from environment settings file.

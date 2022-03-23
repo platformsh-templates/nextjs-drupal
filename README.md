@@ -275,7 +275,7 @@ If you would instead to deploy this template from your own repository on Bitbuck
 
 </details>
 
-### Post-install
+### Post-install instructions
 
 There are two steps you will need to execute in order to complete the demo template run for the first deploy. 
 
@@ -317,7 +317,13 @@ This will only be the case for this first deployment. The final post-install ste
 platform variable:create -p PROJECT_ID -e ENVIRONMENT -l environment --name DEPLOY --value FRIDAY --visible-build=true --prefix=env: -n
 ```
 
-Once you have completed these steps, you will have a deployed Next.js container consuming data from a backend Drupal container on the same environment.
+Once you have completed these steps, you will have a deployed Next.js container consuming data from a backend Drupal container on the same environment. You will be able to create a new environment that is an exact copy of production and start developing.
+
+```bash
+platform get PROJECT_ID
+cd project-name
+platform environment:branch updates
+```
 
 </details>
 
@@ -448,10 +454,12 @@ As outlined in the [Next.js-Drupal documentation](https://next-drupal.org/), the
 
 ### Migrating
 
+Read the [#customizations](Customizations) section first if you have not already. It contains added files that are required to deploy on Platform.sh, and that will be necessary to migrate Drupal, and to deploy a Next.js site alongside it. For your own migration, Platform.sh recommends that you deploy and migrate Drupal first according to the recommendations in our [Drupal 9 migration guide](https://docs.platform.sh/guides/drupal9/deploy.html), then consult the following steps so that you can consistently deploy it with Next.js.
+
 This repository is intended to be a demo. It makes certain decisions so that users can quickly deploy a full Next.js + Drupal project that 
 
 1. Will work automatically across development environments.
-1. Deploys successfully upon initialization.
+1. Deploys successfully upon initialization, with a single click.
 1. Comes with generated dummy content to showcase the final application.
 
 In reality, only the first point is relevant for your migration, but this section attempts to explain the full logic of how configuration is handled to be the most helpful to your use case. It follows the steps outlined exactly in the [Next.js-Drupal documentation](https://next-drupal.org/), only deviating when Platform.sh-specifics need to be addressed. 
@@ -474,7 +482,7 @@ In order to accomplish, some of the configuration described in the [Next.js-Drup
 
 There are a lot of moving parts to make this relationship work. Because of this, there is a committed `api/platformsh-scripts/settings.default.json` included with this template. On a quick glance, most of the settings described in the [Next.js-Drupal documentation](https://next-drupal.org/) are included here. Other values (like secret keys) are pulled from non-public Platform.sh-provided environment variables during deployment. 
 
-It's with this file that we will set both project and environment level configuration. It is placed in a network storage mount, so that we can retain write access to it when new environments are created. 
+It's with this file that we will set both project and environment level configuration. It is placed in a network storage mount, so that we can retain write access to it when new environments are created. You can view this contents of this file by SSHing into either application container and viewing `deploy/settings.json`.
 
 Besides that, all of the steps below that either configure Drupal or modify this file can be found from `api/platformsh-scripts/hooks.deploy.sh`. By following the comments in that script, along with the accompanying called scripts for each step, you should have everything you need to track and replicate for your own migration. File names and locations relevant to this demo can be found in `api/.environment`.
 
