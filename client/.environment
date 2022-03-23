@@ -1,5 +1,0 @@
-# This .environment file sources generated environment variables from the backend Drupal app, when they're available.
-
-if [ -f "$GENERATED_VARS" ]; then 
-    . $GENERATED_VARS
-fi
