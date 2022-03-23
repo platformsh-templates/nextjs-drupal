@@ -158,12 +158,12 @@ const outputString = `
             }
 
             .details-header {  display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: .4fr 1fr;
             grid-template-rows: 1fr;
             gap: 0px 0px;
             grid-auto-flow: row;
             grid-template-areas:
-                "header-col header-colb header-colc";
+                "header-col header-colb";
             grid-area: details-header;
             }
 
@@ -177,12 +177,12 @@ const outputString = `
             .header-colc { grid-area: header-colc; }
 
             .details-content {  display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: .4fr 1fr;
             grid-template-rows: 1fr;
             gap: 0px 0px;
             grid-auto-flow: row;
             grid-template-areas:
-                "content-cola content-colb content-colc";
+                "content-cola content-colb";
             grid-area: details-content;
             }
 
@@ -259,9 +259,8 @@ const outputString = `
           <div class="template-nextsteps">
             <div class="template-instructions-block">
                 <div class="details-header">
-                    <div class="header-cola">Next steps</div>
-                    <div class="header-colb">Redeploy</div>
-                    <div class="header-colc">Update credentials</div>
+                    <div class="header-cola">What's next</div>
+                    <div class="header-colb">Next steps</div>
                   </div>
                   <div class="details-content">
                     <div class="content-cola">
@@ -270,11 +269,12 @@ const outputString = `
                     
                         </div>
                     <div class="content-colb">
+                        <p><strong>1. Update credentials</strong></p>
+                        <p><strong>2. Redeploy</strong></p>
                         <p>Platform.sh is secure by default. Part of that security involves write access to the file system, and container isolation during the build process. Because of this, credentials for the frontend application were not yet available for the frontend Next.js application during this first deployment.</p>
-                        <p>No worries! This will only be the case on this first deployment. To view the final frontend build, all we need to do is redeploy the Platform.sh environment. To do this, you can either <a href="${redeployLink}">visit your environment</a> and select <strong>Redeploy</strong>, or run the following command from your terminal using the CLI.</p>
+                        <p>No worries! This will only be the case on this first deployment. To view the final frontend build, all we need to do is redeploy the Platform.sh environment. To do this, you can either <a href="${redeployLink}" target="_blank" rel="noopener noreferrer">visit your environment</a> and select <strong>Redeploy</strong>, or run the following command from your terminal using the CLI.</p>
                         <pre><code>platform environment:redeploy -p ${projectID} -e ${environment} -y</code></pre>
                     </div>
-                    <div class="content-colc">SOmething</div>
                   </div>
             </div>
           </div>
