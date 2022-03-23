@@ -122,6 +122,7 @@ const outputString = `
                 position: absolute;
                 top: 50%;
                 transform: translateY(-50%);
+                border: 1px solid red.
             }
 
             .template-logo-details { 
@@ -246,8 +247,8 @@ const outputString = `
                     </a> 
                 </div>
                 <div class="template-logo-details">
-                    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-                    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                    <p>Congrats! You've just deployed the Next.js Drupal demo template for Platform.sh!</p>
+                    <p>This template has already configured the multi-app relationship for you, which will work automatically across every development environment you create from this point forward.</p>
                 </div>
               </div>
           </div>
