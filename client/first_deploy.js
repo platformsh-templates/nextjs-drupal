@@ -352,6 +352,9 @@ const outputString = `
                         <p>No worries! This will only be the case on this first deployment. To view the final frontend build, all we need to do is redeploy the Platform.sh environment.</p>
                         <p>To do this, you can either <a href="${redeployLink}" target="_blank" rel="noopener noreferrer">visit your environment</a> and select <strong>Redeploy</strong>, or run the following command from your terminal using the CLI.</p>
                         <pre><code>platform environment:redeploy -p ${projectID} -e ${environment} -y</code></pre>
+
+                        <p><strong>That's it!</strong></p>
+                        <p>Once the environment has redeployed, you should now see the Next.js frontend site consuming Drupal demo articles created by Platform.sh. Feel free to explore the site, edit articles on the backend, create new environments, and start developing.</p>
                     </div>
                   </div>
             </div>

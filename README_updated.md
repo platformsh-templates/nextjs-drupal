@@ -433,16 +433,22 @@ As outlined in the [Next.js-Drupal documentation](https://next-drupal.org/), the
 
 ### Migrating
 
-This repository is intended to be a demo. It makes certain decisions so that user's can quickly deploy a full Next.js + Drupal project that 1) will work automatically across development environments, 2) deploys successfully upon initialization, and 3) comes with generated dummy content to showcase the final application.
+This repository is intended to be a demo. It makes certain decisions so that user's can quickly deploy a full Next.js + Drupal project that 
+
+1. will work automatically across development environments
+1. deploys successfully upon initialization
+1. comes with generated dummy content to showcase the final application.
+
+In reality, only the first point is relevant for your migration, but this section attempts to explain the full logic of how configuration is handled to aid in your migration. It follows the steps outlined exactly in 
 
 ### Configuring Next.js + Drupal across environments
 
-The [Next.js-Drupal documentation](https://next-drupal.org/) documentation provides detailed steps to configure a relationship between a Next.js consuming client application and a Drupal backend application serving an API. 
+The [Next.js-Drupal documentation](https://next-drupal.org/) provides detailed steps to configure a relationship between a Next.js consuming client application and a Drupal backend application serving an API. 
 
-
+<!-- 
 ## License
 
-This template uses the [Foodadvisor demo repository]() provided by Strapi.io as its base, which is licensed under the [MIT License](https://github.com/strapi/foodadvisor/blob/master/LICENSE).
+This template uses the [Foodadvisor demo repository]() provided by Strapi.io as its base, which is licensed under the [MIT License](https://github.com/strapi/foodadvisor/blob/master/LICENSE). -->
 
 ## Contact
 

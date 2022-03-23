@@ -41,6 +41,7 @@ web:
     commands:
         start: |
             # Maybe since we're foregoing the first deploy, yarn start is good enough.
+            echo "Restarting the container..."
             if [ -f "$GENERATED_VARS" ]; then
                 # Source environment variables, get the frontend app name, and start a daemon that watches for changes.
                 . $GENERATED_VARS
