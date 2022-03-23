@@ -1,5 +1,9 @@
 const http = require("http");
 
+const projectID = `65o73exizvbli`;
+const environment = `master`;
+const redeployLink = `https://console.platform.sh/projects/${projectID}/${environment}/actions/redeploy`;
+
 const outputString = `
 
 <!DOCTYPE html>
@@ -255,13 +259,21 @@ const outputString = `
           <div class="template-nextsteps">
             <div class="template-instructions-block">
                 <div class="details-header">
-                    <div class="header-cola">SOmething</div>
-                    <div class="header-colb">SOmething</div>
-                    <div class="header-colc">SOmething</div>
+                    <div class="header-cola">Next steps</div>
+                    <div class="header-colb">Redeploy</div>
+                    <div class="header-colc">Update credentials</div>
                   </div>
                   <div class="details-content">
-                    <div class="content-cola">SOmething</div>
-                    <div class="content-colb">SOmething</div>
+                    <div class="content-cola">
+                        <p>When you deployed this template, a few things happend. Drupal was fully installed, all of the necessary modules and settings were configured to communicate with the Next.js frontend, and connection credentials were shared with that frontend application.</p>
+                        <p>Now that that's completed, there are only two steps you'll need to take to complete the demo.</p>
+                    
+                        </div>
+                    <div class="content-colb">
+                        <p>Platform.sh is secure by default. Part of that security involves write access to the file system, and container isolation during the build process. Because of this, credentials for the frontend application were not yet available for the frontend Next.js application during this first deployment.</p>
+                        <p>No worries! This will only be the case on this first deployment. To view the final frontend build, all we need to do is redeploy the Platform.sh environment. To do this, you can either <a href="${redeployLink}">visit your environment</a> and select <strong>Redeploy</strong>, or run the following command from your terminal using the CLI.</p>
+                        <pre><code>platform environment:redeploy -p ${projectID} -e ${environment} -y</code></pre>
+                    </div>
                     <div class="content-colc">SOmething</div>
                   </div>
             </div>
