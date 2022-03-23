@@ -48,5 +48,5 @@ fi
 
 # 3. Next-Drupal recommends updating the theme for a cleaner preview experience.
 printf "    ✔ Updating default theme.\n"
-drush theme:enable claro
-drush config:set system.theme default claro -y
+drush -q theme:enable claro
+drush -q config:set system.theme default claro -y

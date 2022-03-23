@@ -499,6 +499,54 @@ Below are the steps taken during Drupal's deploy hook only on the first deployme
 1. A role and user are created.
 1. Content is configured. This step is will likely not be neeed in your migration. Because of this, the script `04-configure-content` checks for two environment variables (`CREATE_DEMO_NODES` and `CREATE_PATHAUTO_ALIASES`) that are set in `api/.platform.app.yaml`. If you do not need to 1) configure pathauto aliases, or 2) generate dummy articles, you can set both of those values to `false`. Once you have dont that, it should be possible to copy the `platformsh-scripts` directory completely and run it for your own migration.
 
+When you first deploy this template, the activity log should look like this for the deploy hook:
+
+```bash
+Executing deploy hook for application drupal
+Created Drush configuration file: /app/.drush/drush.yml
+
+* Fresh project detected.
+   ✔ Installing Drupal with a Standard profile (see https://next-drupal.org/learn/quick-start/install-drupal).
+   ✔ Installation complete.
+
+   ✔ Your Drupal site has been installed with the following credentials:
+      * user: admin
+      * pass: PASSWORD-GENERATED-HERE-ON-FIRST-PUSH
+   ✗ WARNING: Update your password and email immediately. They will only be available once.
+   ✔ Enabing modules (see https://next-drupal.org/learn/quick-start/enable-modules).
+      * next
+      * next_jsonapi
+   ✔ Creating role (see https://next-drupal.org/learn/quick-start/create-role).
+      * id: oauth_consumer_role
+      * label: OAuth Consumer Role
+   ✔ Defining role permissions (see https://next-drupal.org/learn/quick-start/create-role).
+      * bypass node access
+      * issue subrequests
+      * access user profiles
+   ✔ Creating user (see https://next-drupal.org/learn/quick-start/create-role).
+      * id: oauth_consumer_user
+   ✔ Granting role permissions to user (see https://next-drupal.org/learn/quick-start/create-role)
+      * user_id: oauth_consumer_user
+      * role_id: oauth_consumer_role
+   ✔ Tracking user (see https://next-drupal.org/learn/quick-start/create-role).
+      * id: oauth_consumer_user
+      * uid: 2
+   ✔ Defining node aliases via pathauto (see https://next-drupal.org/learn/quick-start/configure-content-types).
+      * type: node
+      * bundle: article
+      * label: Article
+      * pattern: /blog/[node:title]
+   ✔ Generating demo article nodes (see https://next-drupal.org/learn/quick-start/create-content).
+      * data: 04-dummy-nodes.json
+      * num_nodes: 15
+      ! Get some coffee, this will take a moment...
+      * node 0: A Circumhorizontal Arc Over Ohio
+      * node 1: Pwyll: Icy Crater of Europa
+      ...
+      ...
+
+```
+
 </details>
 
 <details>
