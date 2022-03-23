@@ -355,7 +355,7 @@ const outputString = `
                             <li>username: <code>admin</code></li>
                             <li>password: <code>${process.env.PLATFORM_PROJECT_ENTROPY}</code></li>
                         </ul>
-                        <p><strong>2. Redeploy the environment</strong></p>
+                        <p><strong>2. Rebuild the environment</strong></p>
                         <p>Platform.sh is secure by default. Part of that security involves read-only access to the file system and container isolation during the build process. Because of this, credentials for the frontend application were not yet available for the first Next.js build.</p>
                         <p>No worries! This will only be the case on this first deployment. To view the final frontend build, all we need to do is rebuild the Platform.sh environment and restart the container.</p>
                         <p>To do this, we just need to add a variable using the <a href="https://docs.platform.sh/development/cli.html" target="_blank" rel="noopener noreferrer">Platform.sh CLI</a>:</p>
