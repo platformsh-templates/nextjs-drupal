@@ -439,7 +439,42 @@ This repository is intended to be a demo. It makes certain decisions so that use
 1. deploys successfully upon initialization
 1. comes with generated dummy content to showcase the final application.
 
-In reality, only the first point is relevant for your migration, but this section attempts to explain the full logic of how configuration is handled to aid in your migration. It follows the steps outlined exactly in 
+In reality, only the first point is relevant for your migration, but this section attempts to explain the full logic of how configuration is handled to aid in your migration. It follows the steps outlined exactly in the [Next.js-Drupal documentation](https://next-drupal.org/), only deviating when Platform.sh-specifics need to be addressed. 
+
+#### Summary
+
+In the [Next.js-Drupal documentation](https://next-drupal.org/) a completely fresh Drupal installation is our starting point, as it is in this template. A number of configuration changes are made to Drupal (adding modules, configuring a consumer, generating keys, etc.) that make it a valid API that a specific Next.js site can consume. Then a Next.js frontend provided by Chapter Three is cloned and used for the frontend. 
+
+Part of the documentation's assumptions are the fact that the final Drupal site will be deployed somewhere, and that the Next.js site will be deployed somewhere else. Going forward, everything about the frontend and backend connection credentials are hard-coded and must be updated by the developer into their pipeline. 
+
+Platform.sh works differently. We assume that Drupal and Next.js will be deployed together to a single final environment. There are some advantages to this approach, namely that the location and connection secrets for the backend can be pulled from the environment itself rather than hardcoded. Also, because of this, it's possible to branch off *new* development environments that likewise have access to these credentials. 
+
+In order to accomplish, some of the configuration described in the [Next.js-Drupal documentation](https://next-drupal.org/) has to be accomplished once when the demo is first deployed, while others have to be run on the first deployment of each new environment. As you might expect, the steps run only once can be executed manually during migration on the production environment. They are included here in the case that you have many of these kinds of sites being deployed in a fleet, where some automation is desired. For the most part however, the environment-level configuration of the second kind will need to be replicated or copied in your own migration, for which this template provides one example of how to do it. 
+
+#### Tracking configuration changes
+
+There are a lot of moving parts to make this relationship work. Because of this, there is a committed `api/platformsh-scripts/settings.default.json` included with this template. On a quick glance, most of the settings described in the [Next.js-Drupal documentation](https://next-drupal.org/) are included here. Other values (like secret keys) are pulled from non-public Platform.sh-provided environment variables during deployment. 
+
+It's with this file that we will set both project and environment level configuration. It is placed in a network storage mount, so that we can retain write access to it when new environments are created. 
+
+Besides that, all of the steps below that either configure Drupal or modify this file can be found from `api/platformsh-scripts/hooks.deploy.sh`. By following the comments in that script, along with the accompanying called scripts for each step, you should have everything you need to track and replicate for your own migration.
+
+#### Project-level: initializing the production environment
+
+Below are the steps taken during Drupal's deploy hook only on the first deployment:
+
+1. `api/platformsh-scripts/settings.default.json` is copied to a well-defined writable location.
+1. Drupal is installed using the standard profile and an intial admin password pulled from the environment.
+1. Modules relevant to Next.js-Drupal are enabled.
+1. A role and user are created.
+1. Content is configured. This step is will likely not be neeed in your migration. Because of this, the script `04-configure-content` checks for two environment variables (`CREATE_DEMO_NODES` and `CREATE_PATHAUTO_ALIASES`) that are set in `api/.platform.app.yaml`. If you do not need to 1) configure pathauto aliases, or 2) generate dummy articles, you can set both of those values to `false`.
+
+#### Environment-level: Reconfiguring every new environment
+
+At this point in the [Next.js-Drupal documentation](https://next-drupal.org/) you would configure a consumer associated with a specific Next.js frontend url location. On Platform.sh, this location will entirely depend on which development environment we're on, so this configuration has to be done on every new environment, instead of just once at the project-level. 
+
+1. 
+
 
 ### Configuring Next.js + Drupal across environments
 

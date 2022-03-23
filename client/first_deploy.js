@@ -256,13 +256,20 @@ const outputString = `
             }
 
             pre {
-                text-align: center;
+                // text-align: center;
+                background: #eae5e7;
+                padding: 10px 10px 10px 10px;
+                white-space: pre-wrap;       /* css-3 */
+                white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+                white-space: -pre-wrap;      /* Opera 4-6 */
+                white-space: -o-pre-wrap;    /* Opera 7 */
+                word-wrap: break-word;       /* Internet Explorer 5.5+ */
             }
 
             code {
                 font-size: 1.1em;
                 background: #eae5e7;
-                padding: 2px 10px 2px 10px;
+                // padding: 2px 10px 2px 10px;
                 border-radiux: 2px;
             }
 
@@ -338,6 +345,7 @@ const outputString = `
                         <p>When you deployed this template, a few things happend.</p>
                         <p>Drupal was fully installed, all of the necessary modules and settings were configured to communicate with the Next.js frontend, and connection credentials were shared with that frontend application.</p>
                         <p>Now that that's completed, there are only two steps you'll need to take to complete the demo.</p>
+                        <p>If anything seems unclear, be sure to check out the <a href="https://github.com/platformsh-templates/nextjs-drupal" target="_blank" rel="noopener noreferrer">README</a> for more details.
                     
                         </div>
                     <div class="content-colb">
@@ -349,13 +357,10 @@ const outputString = `
                         </ul>
                         <p><strong>2. Redeploy the environment</strong></p>
                         <p>Platform.sh is secure by default. Part of that security involves read-only access to the file system and container isolation during the build process. Because of this, credentials for the frontend application were not yet available for the first Next.js build.</p>
-                        <p>No worries! This will only be the case on this first deployment. To view the final frontend build, all we need to do is redeploy the Platform.sh environment.</p>
-                        <p>To do this, you can either <a href="${redeployLink}" target="_blank" rel="noopener noreferrer">visit your environment</a> and select <strong>Redeploy</strong>, or run the following command from your terminal using the CLI.</p>
-                        <pre><code>platform environment:redeploy -p ${projectID} -e ${environment} -y</code></pre>
-
-                        <p><strong>That's it!</strong></p>
-                        <p>Once the environment has redeployed, you should now see the Next.js frontend site consuming Drupal demo articles created by Platform.sh. Feel free to explore the site, edit articles on the backend, create new environments, and start developing.</p>
-                    </div>
+                        <p>No worries! This will only be the case on this first deployment. To view the final frontend build, all we need to do is rebuild the Platform.sh environment and restart the container.</p>
+                        <p>To do this, we just need to add a variable using the <a href="https://docs.platform.sh/development/cli.html" target="_blank" rel="noopener noreferrer">Platform.sh CLI</a>:</p>
+                        <pre><code>platform variable:create -p ${projectID} -e ${environment} -l environment --name DEPLOY --value FRIDAY --visible-build=true --prefix=env: -n</code></pre>
+                     </div>
                   </div>
             </div>
           </div>
