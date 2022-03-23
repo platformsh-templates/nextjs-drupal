@@ -40,17 +40,15 @@ hooks:
 web:
     commands:
         start: |
-            echo $GENERATED_VARS
-            ls $PLATFORM_APP_DIR/deploy
-
+            # Maybe since we're foregoing the first deploy, yarn start is good enough.
             if [ -f "$GENERATED_VARS" ]; then
+                # Source environment variables, get the frontend app name, and start a daemon that watches for changes.
                 . $GENERATED_VARS
-                # Get the frontend app name, and start a daemon that watches for changes.
-                APP=$(cat package.json | jq -r '.name')
-                pm2 start npm --no-daemon --watch --name $APP -- start -- -p $PORT
+                # APP=$(cat package.json | jq -r '.name')
+                # pm2 start npm --no-daemon --watch --name $APP -- start -- -p $PORT
+                yarn start
             else
                 # On the first deploy, display next steps page.
-                echo "First deploy running."
                 node first_deploy.js
             fi
 

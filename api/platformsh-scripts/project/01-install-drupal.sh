@@ -9,7 +9,7 @@
 printf "    ✔ Installing Drupal with a Standard profile (see https://next-drupal.org/learn/quick-start/install-drupal).\n"
 
 # 1. Define initial admin password. 
-INIT_ADMIN_PASS=$(cat ../run/config.json | jq -r '.applications[0].slug')
+INIT_ADMIN_PASS=${PLATFORM_PROJECT_ENTROPY}
 
 # 2. Install the site.
 drush si -q --site-name="Drupal" --account-pass=$INIT_ADMIN_PASS -y

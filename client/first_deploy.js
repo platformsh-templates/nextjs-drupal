@@ -1,8 +1,23 @@
 const http = require("http");
 
+function decode(value) {
+    return JSON.parse(Buffer.from(value, 'base64'));
+}
+
 const projectID = `${process.env.PLATFORM_PROJECT}`;
 const environment = `${process.env.PLATFORM_BRANCH}`;
 const redeployLink = `https://console.platform.sh/projects/${projectID}/${environment}/actions/redeploy`;
+
+let backendURL;
+let routes = decode(process.env.PLATFORM_ROUTES);
+for (route in routes) {
+    if (routes[route]['id'] == 'api') {
+       backendURL = route;
+    }
+}
+
+const backendLogin = `${backendURL}user/login`;
+const credentialUpdate = `${backendURL}user/1/edit`
 
 const outputString = `
 
@@ -19,6 +34,16 @@ const outputString = `
             }
             .container * {
                 position: relative;
+            }
+            a { 
+                color: #145CC6;
+                text-decoration: none;
+            }
+            a:visited {
+                color: #145CC6; 
+            }
+            a:hover {
+                text-decoration: underline;
             }
             .container {  display: grid;
             grid-template-columns: 1fr;
@@ -121,12 +146,22 @@ const outputString = `
                 margin: 40px 40px 20px 40px;
             }
 
-            .template-logo > a {
+            .template-logo > .api {
                 margin: 0;
                 position: absolute;
                 top: 50%;
+                left: 10%;
                 transform: translateY(-50%);
-                border: 1px solid red.
+                width: 35%;
+            }
+
+            .template-logo > .client {
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                right: 10%;
+                transform: translateY(-50%);
+                width: 35%;
             }
 
             .template-logo-details { 
@@ -139,7 +174,8 @@ const outputString = `
             .template-nextsteps { 
                 grid-area: template-nextsteps; 
                 background-color: #ffbdbb;
-                padding: 120px 80px 120px 80px;
+                padding: 80px 80px 120px 80px;
+
             }
 
             .template-instructions-block {
@@ -149,16 +185,17 @@ const outputString = `
                 height: 100%;
                 display: grid;
                 grid-template-columns: 1fr;
-                grid-template-rows: .25fr 0.75fr;
+                grid-template-rows: .25fr .75fr;
                 gap: 0px 0px;
                 grid-auto-flow: row;
                 grid-template-areas:
                     "details-header"
                     "details-content";
+
             }
 
             .details-header {  display: grid;
-            grid-template-columns: .4fr 1fr;
+            grid-template-columns: .45fr 1fr;
             grid-template-rows: 1fr;
             gap: 0px 0px;
             grid-auto-flow: row;
@@ -169,41 +206,75 @@ const outputString = `
 
             .header-cola { 
                 grid-area: header-col; 
-                background-color: #f4f2f3;
+                // background-color: #f4f2f3;
+                padding: 20px;
+                border-bottom: 1px solid #eae5e7;
+                padding-bottom: 16px;
+                font-weight: 700;
+                font-size: 14px;
+                line-height: 1.5;
+                letter-spacing: .1em;
+                text-transform: uppercase;
+                color: #797477;
             }
 
-            .header-colb { grid-area: header-colb; }
+            .header-colb { 
+                grid-area: header-colb; 
+                padding: 20px;
+                border-bottom: 1px solid #eae5e7;
+                padding-bottom: 16px;
+                font-weight: 700;
+                font-size: 14px;
+                line-height: 1.5;
+                letter-spacing: .1em;
+                text-transform: uppercase;
+                color: #797477;            }
 
-            .header-colc { grid-area: header-colc; }
 
-            .details-content {  display: grid;
-            grid-template-columns: .4fr 1fr;
-            grid-template-rows: 1fr;
-            gap: 0px 0px;
-            grid-auto-flow: row;
-            grid-template-areas:
-                "content-cola content-colb";
-            grid-area: details-content;
+            .details-content {  
+                display: grid;
+                grid-template-columns: .45fr 1fr;
+                grid-template-rows: 1fr;
+                gap: 0px 0px;
+                grid-auto-flow: row;
+                grid-template-areas:
+                    "content-cola content-colb";
+                grid-area: details-content;
             }
 
             .content-cola { 
                 grid-area: content-cola; 
-                background-color: #f4f2f3;
+                // background-color: #f4f2f3;
+                padding: 20px;
             }
 
-            .content-colb { grid-area: content-colb; }
+            .content-colb { 
+                
+                grid-area: content-colb; 
+                padding: 20px;
+            
+            }
 
-            .content-colc { grid-area: content-colc; }
+            pre {
+                text-align: center;
+            }
 
+            code {
+                font-size: 1.1em;
+                background: #eae5e7;
+                padding: 2px 10px 2px 10px;
+                border-radiux: 2px;
+            }
 
-            .footer {  display: grid;
-            grid-template-columns: 40% 1fr;
-            grid-template-rows: 1fr;
-            gap: 0px 0px;
-            grid-auto-flow: row;
-            grid-template-areas:
-                "footer-left footer-right";
-            grid-area: footer;
+            .footer {  
+                display: grid;
+                grid-template-columns: 40% 1fr;
+                grid-template-rows: 1fr;
+                gap: 0px 0px;
+                grid-auto-flow: row;
+                grid-template-areas:
+                    "footer-left footer-right";
+                grid-area: footer;
             }
 
             .footer-left { grid-area: footer-left; }
@@ -215,8 +286,8 @@ const outputString = `
 
 
             html, body , .container {
-            height: 100%;
-            margin: 0;
+                height: 100%;
+                margin: 0;
             }
 
 
@@ -246,33 +317,40 @@ const outputString = `
           <div class="template-details">
               <div class="template-details-block">
                 <div class="template-logo">
-                    <a href="https://platform.sh">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNi4yIDMuOUMxNi4yIDMuOSAxNC44MiAzLjMgMTQuMDQgMi44MkMxNC4wNCAyLjgyIDEzLjAyIDIuMjIgMTEuMzQgMEMxMS4zNCAwIDExLjQgMi41MiA4LjcgMy44NEM0LjQ0IDUuNTIgMS44IDkuMDYgMS44IDEzLjU2QzEuOCAxOS4yNiA2LjQ4IDIzLjk0IDEyLjE4IDIzLjk0QzE3Ljk0IDIzLjk0IDIyLjU2IDE5LjI2IDIyLjU2IDEzLjU2QzIyLjYyIDYuNiAxNi4yIDMuOSAxNi4yIDMuOVpNNC42OCA5LjZDMy4wNiA5Ljk2IDMuMTggOS4xMiAzLjQ4IDguNEMzLjYgNy45OCA0LjAyIDcuNSA0LjAyIDcuNUM1LjEgNS43NiA3LjUgNC41IDcuNSA0LjVDNy44IDQuMzggOC4zNCA0LjA4IDguODIgMy44NEM5Ljc4IDMuMyAxMC4wMiAzIDEwLjAyIDNDMTEuNCAxLjY4IDExLjI4IDAuMDYgMTEuMjggMEMxMi40OCAyLjQgMTEuMDQgMy40OCAxMS4wNCAzLjQ4QzExLjQgMy44NCAxMS4yOCA0LjIgMTEuMjggNC4yQzkuNDIgOC4yMiA0LjY4IDkuNiA0LjY4IDkuNlpNMTcuMjIgMjIuMkMxNy4xIDIyLjI2IDE1LjYgMjIuOTggMTMuODYgMjIuOThDMTIuOSAyMi45OCAxMS44OCAyMi43NCAxMC45OCAyMi4xNEMxMC42OCAyMS45IDEwLjU2IDIxLjQ4IDEwLjc0IDIxLjE4QzEwLjggMjEuMDYgMTEuMTYgMjAuNjQgMTIgMjEuMThDMTIuMDYgMjEuMjQgMTQuMDQgMjIuNTYgMTcuMSAyMC44OEMxNy4zNCAyMC43NiAxNy42NCAyMC44MiAxNy43NiAyMS4wNkMxNy45NCAyMS4zIDE4IDIxLjc4IDE3LjIyIDIyLjJaTTEzLjAyIDE5LjY4TDEzLjA4IDE5LjYyQzEzLjE0IDE5LjU2IDE0LjE2IDE4LjI0IDE1LjY2IDE4LjQyQzE1LjkgMTguNDIgMTYuNzQgMTguNDggMTcuMjggMTkuNUMxNy4zNCAxOS42MiAxNy40NiAyMC4wNCAxNy4yMiAyMC4zNEMxNy4xIDIwLjQ2IDE2LjkyIDIwLjU4IDE2LjU2IDIwLjQ2QzE2LjMyIDIwLjQgMTYuMiAyMC4xNiAxNi4yIDIwLjA0QzE2LjE0IDE5Ljg2IDE2LjA4IDE5Ljc0IDE1LjQ4IDE5LjY4QzE1IDE5LjYyIDE0LjcgMTkuODYgMTQuMzQgMjAuMTZDMTQuMTYgMjAuMzQgMTMuOTIgMjAuNTIgMTMuNjggMjAuNThDMTMuNjIgMjAuNjQgMTMuNTYgMjAuNjQgMTMuNDQgMjAuNjRDMTMuMzIgMjAuNjQgMTMuMiAyMC41OCAxMy4wOCAyMC41MkMxMi45IDIwLjM0IDEyLjg0IDIwLjEgMTMuMDIgMTkuNjhaTTE5Ljg2IDE5LjhDMTkuODYgMTkuOCAxOS4zMiAxOS45OCAxOC43OCAxOS4zOEMxOC43OCAxOS4zOCAxNy4xNiAxNy41MiAxNi4zOCAxNy4yMkMxNi4zOCAxNy4yMiAxNS45IDE3LjA0IDE1LjMgMTcuMjhDMTUuMyAxNy4yOCAxNC44OCAxNy4zNCAxMy4yNiAxOC40MkMxMy4yNiAxOC40MiAxMC41IDIwLjE2IDkuMTIgMTkuOTJDOS4xMiAxOS45MiA2IDE5Ljk4IDYuNDIgMTYuNjhDNi40MiAxNi42OCA3LjA4IDEyLjk2IDExLjQgMTMuOEMxMS40IDEzLjggMTIuMzYgMTMuOTggMTQuMSAxNS4zNkMxNC4xIDE1LjM2IDE1LjMgMTYuMjYgMTUuOSAxNi4yNkMxNS45IDE2LjI2IDE2LjM4IDE2LjMyIDE3LjQ2IDE1LjY2QzE3LjQ2IDE1LjY2IDE5LjU2IDE0LjA0IDIwLjM0IDE0LjFDMjAuNDYgMTQuMSAyMS44NCAxNC4wNCAyMS44NCAxNi4zMkMyMS43OCAxNi4yNiAyMS44NCAxOC45IDE5Ljg2IDE5LjhaIiBmaWxsPSIjMDA4RUNFIi8+Cjwvc3ZnPgo=" width="100%">
-                    </a> 
-                </div>
+                    <img class="api" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNi4yIDMuOUMxNi4yIDMuOSAxNC44MiAzLjMgMTQuMDQgMi44MkMxNC4wNCAyLjgyIDEzLjAyIDIuMjIgMTEuMzQgMEMxMS4zNCAwIDExLjQgMi41MiA4LjcgMy44NEM0LjQ0IDUuNTIgMS44IDkuMDYgMS44IDEzLjU2QzEuOCAxOS4yNiA2LjQ4IDIzLjk0IDEyLjE4IDIzLjk0QzE3Ljk0IDIzLjk0IDIyLjU2IDE5LjI2IDIyLjU2IDEzLjU2QzIyLjYyIDYuNiAxNi4yIDMuOSAxNi4yIDMuOVpNNC42OCA5LjZDMy4wNiA5Ljk2IDMuMTggOS4xMiAzLjQ4IDguNEMzLjYgNy45OCA0LjAyIDcuNSA0LjAyIDcuNUM1LjEgNS43NiA3LjUgNC41IDcuNSA0LjVDNy44IDQuMzggOC4zNCA0LjA4IDguODIgMy44NEM5Ljc4IDMuMyAxMC4wMiAzIDEwLjAyIDNDMTEuNCAxLjY4IDExLjI4IDAuMDYgMTEuMjggMEMxMi40OCAyLjQgMTEuMDQgMy40OCAxMS4wNCAzLjQ4QzExLjQgMy44NCAxMS4yOCA0LjIgMTEuMjggNC4yQzkuNDIgOC4yMiA0LjY4IDkuNiA0LjY4IDkuNlpNMTcuMjIgMjIuMkMxNy4xIDIyLjI2IDE1LjYgMjIuOTggMTMuODYgMjIuOThDMTIuOSAyMi45OCAxMS44OCAyMi43NCAxMC45OCAyMi4xNEMxMC42OCAyMS45IDEwLjU2IDIxLjQ4IDEwLjc0IDIxLjE4QzEwLjggMjEuMDYgMTEuMTYgMjAuNjQgMTIgMjEuMThDMTIuMDYgMjEuMjQgMTQuMDQgMjIuNTYgMTcuMSAyMC44OEMxNy4zNCAyMC43NiAxNy42NCAyMC44MiAxNy43NiAyMS4wNkMxNy45NCAyMS4zIDE4IDIxLjc4IDE3LjIyIDIyLjJaTTEzLjAyIDE5LjY4TDEzLjA4IDE5LjYyQzEzLjE0IDE5LjU2IDE0LjE2IDE4LjI0IDE1LjY2IDE4LjQyQzE1LjkgMTguNDIgMTYuNzQgMTguNDggMTcuMjggMTkuNUMxNy4zNCAxOS42MiAxNy40NiAyMC4wNCAxNy4yMiAyMC4zNEMxNy4xIDIwLjQ2IDE2LjkyIDIwLjU4IDE2LjU2IDIwLjQ2QzE2LjMyIDIwLjQgMTYuMiAyMC4xNiAxNi4yIDIwLjA0QzE2LjE0IDE5Ljg2IDE2LjA4IDE5Ljc0IDE1LjQ4IDE5LjY4QzE1IDE5LjYyIDE0LjcgMTkuODYgMTQuMzQgMjAuMTZDMTQuMTYgMjAuMzQgMTMuOTIgMjAuNTIgMTMuNjggMjAuNThDMTMuNjIgMjAuNjQgMTMuNTYgMjAuNjQgMTMuNDQgMjAuNjRDMTMuMzIgMjAuNjQgMTMuMiAyMC41OCAxMy4wOCAyMC41MkMxMi45IDIwLjM0IDEyLjg0IDIwLjEgMTMuMDIgMTkuNjhaTTE5Ljg2IDE5LjhDMTkuODYgMTkuOCAxOS4zMiAxOS45OCAxOC43OCAxOS4zOEMxOC43OCAxOS4zOCAxNy4xNiAxNy41MiAxNi4zOCAxNy4yMkMxNi4zOCAxNy4yMiAxNS45IDE3LjA0IDE1LjMgMTcuMjhDMTUuMyAxNy4yOCAxNC44OCAxNy4zNCAxMy4yNiAxOC40MkMxMy4yNiAxOC40MiAxMC41IDIwLjE2IDkuMTIgMTkuOTJDOS4xMiAxOS45MiA2IDE5Ljk4IDYuNDIgMTYuNjhDNi40MiAxNi42OCA3LjA4IDEyLjk2IDExLjQgMTMuOEMxMS40IDEzLjggMTIuMzYgMTMuOTggMTQuMSAxNS4zNkMxNC4xIDE1LjM2IDE1LjMgMTYuMjYgMTUuOSAxNi4yNkMxNS45IDE2LjI2IDE2LjM4IDE2LjMyIDE3LjQ2IDE1LjY2QzE3LjQ2IDE1LjY2IDE5LjU2IDE0LjA0IDIwLjM0IDE0LjFDMjAuNDYgMTQuMSAyMS44NCAxNC4wNCAyMS44NCAxNi4zMkMyMS43OCAxNi4yNiAyMS44NCAxOC45IDE5Ljg2IDE5LjhaIiBmaWxsPSIjMDA4RUNFIi8+Cjwvc3ZnPgo=" width="100%">
+                    <img class="client" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuNjYyOTkgOC43ODE4SDEwLjE4OTZWOS4xNDIxMUg2LjA3NzkzVjExLjg1MzlIOS45NDQ0MlYxMi4yMTQySDYuMDc3OTNWMTUuMTkxNEgxMC4yMzY4VjE1LjU1MThINS42NjI5OVY4Ljc4MThaTTEwLjU5NTEgOC43ODE4SDExLjA3NjFMMTMuMjA3NCAxMS43NTkxTDE1LjM4NTggOC43ODE4TDE4LjM0ODggNUwxMy40ODA4IDEyLjA3MkwxNS45ODkzIDE1LjU1MThIMTUuNDg5NUwxMy4yMDc0IDEyLjM4NDlMMTAuOTE1OCAxNS41NTE4SDEwLjQyNTRMMTIuOTUyNyAxMi4wNzJMMTAuNTk1MSA4Ljc4MThaTTE2LjE2ODUgOS4xNDIxMVY4Ljc4MThIMjEuMzI3VjkuMTQyMTFIMTguOTUwNVYxNS41NTE4SDE4LjUzNTZWOS4xNDIxMUgxNi4xNjg1Wk0wIDguNzgxOEgwLjUxODY3NUw3LjY3MDkgMTkuNUw0LjcxNTIzIDE1LjU1MThMMC40MzM4MDEgOS4yOTM4MkwwLjQxNDk0IDE1LjU1MThIMFY4Ljc4MThaTTIxLjI4NTIgMTUuMDgyN0MyMS4yMDA0IDE1LjA4MjcgMjEuMTM2OCAxNS4wMTY5IDIxLjEzNjggMTQuOTMxOUMyMS4xMzY4IDE0Ljg0NjkgMjEuMjAwNCAxNC43ODExIDIxLjI4NTIgMTQuNzgxMUMyMS4zNzEgMTQuNzgxMSAyMS40MzM1IDE0Ljg0NjkgMjEuNDMzNSAxNC45MzE5QzIxLjQzMzUgMTUuMDE2OSAyMS4zNzEgMTUuMDgyNyAyMS4yODUyIDE1LjA4MjdaTTIxLjY5MjkgMTQuNjg2SDIxLjkxNDlDMjEuOTE4IDE0LjgwNjQgMjIuMDA1OCAxNC44ODc0IDIyLjEzNDkgMTQuODg3NEMyMi4yNzkzIDE0Ljg4NzQgMjIuMzYxIDE0LjgwMDQgMjIuMzYxIDE0LjYzNzRWMTMuNjA1MkgyMi41ODcxVjE0LjYzODRDMjIuNTg3MSAxNC45MzE5IDIyLjQxNzUgMTUuMTAwOSAyMi4xMzcgMTUuMTAwOUMyMS44NzM2IDE1LjEwMDkgMjEuNjkyOSAxNC45MzcgMjEuNjkyOSAxNC42ODZaTTIyLjg4MjggMTQuNjcyOEgyMy4xMDY4QzIzLjEyNiAxNC44MTE1IDIzLjI2MTIgMTQuODk5NSAyMy40NTYgMTQuODk5NUMyMy42Mzc3IDE0Ljg5OTUgMjMuNzcwOSAxNC44MDU0IDIzLjc3MDkgMTQuNjc1OUMyMy43NzA5IDE0LjU2NDYgMjMuNjg2MSAxNC40OTc4IDIzLjQ5MzQgMTQuNDUyMkwyMy4zMDU2IDE0LjQwNjdDMjMuMDQyMiAxNC4zNDUgMjIuOTIyMSAxNC4yMTc0IDIyLjkyMjEgMTQuMDAyOUMyMi45MjIxIDEzLjc0MjggMjMuMTM0MSAxMy41Njk4IDIzLjQ1MiAxMy41Njk4QzIzLjc0NzcgMTMuNTY5OCAyMy45NjM3IDEzLjc0MjggMjMuOTc2OCAxMy45ODg3SDIzLjc1NjhDMjMuNzM1NiAxMy44NTQxIDIzLjYxODUgMTMuNzcwMSAyMy40NDkgMTMuNzcwMUMyMy4yNzAzIDEzLjc3MDEgMjMuMTUxMiAxMy44NTYyIDIzLjE1MTIgMTMuOTg3N0MyMy4xNTEyIDE0LjA5MiAyMy4yMjc5IDE0LjE1MTcgMjMuNDE3NyAxNC4xOTYyTDIzLjU3ODEgMTQuMjM1N0MyMy44NzY5IDE0LjMwNTUgMjQgMTQuNDI2OSAyNCAxNC42NDY1QzI0IDE0LjkyNTkgMjMuNzg0IDE1LjEwMDkgMjMuNDM4OSAxNS4xMDA5QzIzLjExNTkgMTUuMTAwOSAyMi44OTg5IDE0LjkzMzkgMjIuODgyOCAxNC42NzI4WiIgZmlsbD0iYmxhY2siLz4KPC9zdmc+Cg==">
+
+                                </div>
                 <div class="template-logo-details">
                     <p>Congrats! You've just deployed the Next.js Drupal demo template for Platform.sh!</p>
-                    <p>This template has already configured the multi-app relationship for you, which will work automatically across every development environment you create from this point forward.</p>
+                    <p>This template has already configured the multi-app relationship for you, which will work automatically across every development environment you create from this point forward. Be sure to follow the instructions on the right to complete the demo.</p>
                 </div>
               </div>
           </div>
           <div class="template-nextsteps">
             <div class="template-instructions-block">
                 <div class="details-header">
-                    <div class="header-cola">What's next</div>
+                    <div class="header-cola">About</div>
                     <div class="header-colb">Next steps</div>
                   </div>
                   <div class="details-content">
                     <div class="content-cola">
-                        <p>When you deployed this template, a few things happend. Drupal was fully installed, all of the necessary modules and settings were configured to communicate with the Next.js frontend, and connection credentials were shared with that frontend application.</p>
+                        <p>When you deployed this template, a few things happend.</p>
+                        <p>Drupal was fully installed, all of the necessary modules and settings were configured to communicate with the Next.js frontend, and connection credentials were shared with that frontend application.</p>
                         <p>Now that that's completed, there are only two steps you'll need to take to complete the demo.</p>
                     
                         </div>
                     <div class="content-colb">
-                        <p><strong>1. Update credentials</strong></p>
-                        <p><strong>2. Redeploy</strong></p>
-                        <p>Platform.sh is secure by default. Part of that security involves write access to the file system, and container isolation during the build process. Because of this, credentials for the frontend application were not yet available for the frontend Next.js application during this first deployment.</p>
-                        <p>No worries! This will only be the case on this first deployment. To view the final frontend build, all we need to do is redeploy the Platform.sh environment. To do this, you can either <a href="${redeployLink}" target="_blank" rel="noopener noreferrer">visit your environment</a> and select <strong>Redeploy</strong>, or run the following command from your terminal using the CLI.</p>
+                        <p><strong>1. Update your Drupal admin credentials</strong></p>
+                        <p>Drupal has been installed, and an admin user was created. <a href="${backendLogin}" target="_blank" rel="noopener noreferrer">Visit the Drupal login page</a>, then <a href="${credentialUpdate}" target="_blank" rel="noopener noreferrer">update your email and password</a> to something more memorable.</p>
+                        <ul>
+                            <li>username: <code>admin</code></li>
+                            <li>password: <code>${process.env.PLATFORM_PROJECT_ENTROPY}</code></li>
+                        </ul>
+                        <p><strong>2. Redeploy the environment</strong></p>
+                        <p>Platform.sh is secure by default. Part of that security involves read-only access to the file system and container isolation during the build process. Because of this, credentials for the frontend application were not yet available for the first Next.js build.</p>
+                        <p>No worries! This will only be the case on this first deployment. To view the final frontend build, all we need to do is redeploy the Platform.sh environment.</p>
+                        <p>To do this, you can either <a href="${redeployLink}" target="_blank" rel="noopener noreferrer">visit your environment</a> and select <strong>Redeploy</strong>, or run the following command from your terminal using the CLI.</p>
                         <pre><code>platform environment:redeploy -p ${projectID} -e ${environment} -y</code></pre>
                     </div>
                   </div>
