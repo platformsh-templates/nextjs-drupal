@@ -544,8 +544,12 @@ Created Drush configuration file: /app/.drush/drush.yml
       * node 1: Pwyll: Icy Crater of Europa
       ...
       ...
-
+      * node 14: Dark Craters and Bright Spots Revealed on Asteroid Ceres
+   ✔ Updating default theme.
+   ✔ Rebuilding the cache.
 ```
+
+There will be additional steps after that, but those are addressed in the next section on **Environment-level configuration**.
 
 </details>
 
@@ -563,12 +567,41 @@ At this point in the [Next.js-Drupal documentation](https://next-drupal.org/) yo
    b. A `platformsh.environment` file is generated. You will recognize this file as containing all of the required environment variables for the Next.js side. In this step, the file is created, and then saved into a network storage mount. Network storage is a helpful service, because once moved there the frontend Next.js container will have access to it.
    c. Almost identically to the above, a `platformsh.env` file is generated. While the above is meant to be used within a Platform.sh environment, this file is meant to be used for local development. You can see the [#local-development](Local Development) section for details, but the important point is that the script `/client/get_local_config.sh` can be run to retrieve this file for the current environment while you are working.
 
+When a new environment is created, the deploy hook will look like the below in the activity log:
+
+```bash
+* New environment detected.
+   ✔ Deleting parent environment's configuration
+* Configuring the current environment.
+   ✔ Generating keys (see https://next-drupal.org/learn/quick-start/create-consumer).
+      * location: /app/private
+      * public_key: /app/private/public.key
+      * private_key: /app/private/private.key
+   ✔ Creating the OAuth consumer for the current environment (see https://next-drupal.org/learn/quick-start/create-consumer).
+      * user_uid: 2
+      * consumer_id: oauth_consumer_env
+      * consumer_label: Next.js OAuth Env Consumer
+      * consumer_site: oauth_consumer_role
+      * consumer_secret: WXNKNJNF26GLM5Q3VZB56Y4SUZOVXPCEZUXKBSQ7VJESHT67FELA====
+      * consumer_uid: f48783e1-8dfb-4e49-92a5-086f38403edc
+   ✔ Creating the NextJS site entity (see https://next-drupal.org/learn/quick-start/create-nextjs-site).
+      * id: nextjs_site
+      * label: Next.js Site
+      * base_url: https://something-h7e3nci-65o73exizvbli.eu-3.platformsh.site
+      * preview_url: https://something-h7e3nci-65o73exizvbli.eu-3.platformsh.site/api/preview
+      * preview_secret: something-h7e3nci
+   ✔ Configuring previews (see https://next-drupal.org/learn/quick-start/configure-content-types).
+      * site: nextjs_site
+      * id: node.article
+      * site_resolver: site_selector
+   ✔ Logging frontend configuration.
+* Preparing credentials to hand off to frontend container.
+* Writing local configuration.
+```
+
+After this line, two configuration files are shown - a `.env.local` and a `.environment` file - which are used to help you develop locally and connect to the backend within a Platform.sh environment, respectively.
+
 </details>
-
-<!-- 
-## License
-
-This template uses the [Foodadvisor demo repository]() provided by Strapi.io as its base, which is licensed under the [MIT License](https://github.com/strapi/foodadvisor/blob/master/LICENSE). -->
 
 ## Contact
 
