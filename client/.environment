@@ -1,16 +1,5 @@
-# This .environment file temporarily provides credentials for the frontend, until the time that Drupal has generated them.
+# This .environment file sources generated environment variables from the backend Drupal app, when they're available.
 
 if [ -f "$GENERATED_VARS" ]; then 
     . $GENERATED_VARS
-else 
-    DRUPAL_URL=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select (.value.id == "api") | .key')
-    stringlen=${#DRUPAL_URL}
-    export NEXT_PUBLIC_DRUPAL_BASE_URL=$(echo $DRUPAL_URL | awk -v var=$stringlen '{ string=substr($0, 1, var - 1); print string; }' )
-    stringlen=${#NEXT_PUBLIC_DRUPAL_BASE_URL}
-    export NEXT_IMAGE_DOMAIN=$(echo $NEXT_PUBLIC_DRUPAL_BASE_URL| awk -v var=$stringlen '{ string=substr($0, 9, var); print string; }' )
-    DRUPAL_SITE_ID=somesiteid
-    DRUPAL_FRONT_PAGE=/node
-    DRUPAL_PREVIEW_SECRET=somepreviewsecret
-    DRUPAL_CLIENT_ID=someclientid
-    DRUPAL_CLIENT_SECRET=somesecret
 fi

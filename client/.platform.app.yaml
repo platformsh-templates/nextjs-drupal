@@ -32,19 +32,26 @@ hooks:
         cd platformsh-scripts/test/next-drupal-debug
         yarn --frozen-lockfile
     post_deploy: |
-        # Verify the connection to the backend can be made with those variables.
-        cd platformsh-scripts/test/next-drupal-debug && yarn debug
-        # Build the frontend.
-        cd $PLATFORM_APP_DIR && yarn build
+        if [ -f "$GENERATED_VARS" ]; then 
+            # Verify the connection to the backend can be made with those variables.
+            cd platformsh-scripts/test/next-drupal-debug && yarn debug
+            # Build the frontend.
+            cd $PLATFORM_APP_DIR && yarn build
+        else
+            printf "First deploy, skipping."
+        fi
 
 web:
     commands:
         start: |
-            # Get the frontend app name, and start a daemon that watches for changes.
-            APP=$(cat package.json | jq -r '.name')
-            pm2 start npm --no-daemon --watch --name $APP --max-restarts 100 -- start -- -p $PORT
-            # --max-restarts
-            # --kill-timeout
+            if [ -f "$GENERATED_VARS" ]; then 
+                # Get the frontend app name, and start a daemon that watches for changes.
+                APP=$(cat package.json | jq -r '.name')
+                pm2 start npm --no-daemon --watch --name $APP -- start -- -p $PORT
+            else
+                node first_deploy.js
+            fi
+
 
 disk: 512
 

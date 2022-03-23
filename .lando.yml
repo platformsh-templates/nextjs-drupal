@@ -1,0 +1,4 @@
+name: template-next.js-drupal
+recipe: platformsh
+config:
+  id: 65o73exizvbli
