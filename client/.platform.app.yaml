@@ -46,8 +46,9 @@ web:
                 # Source environment variables, build the frontend, and start the server.
                 . $GENERATED_VARS
                 yarn build
-                APP=$(cat package.json | jq -r '.name')
-                pm2 start npm --no-daemon --watch --name $APP -- preview -- -p $PORT
+                yarn start
+                # APP=$(cat package.json | jq -r '.name')
+                # pm2 start npm --no-daemon --watch --name $APP -- preview -- -p $PORT
             else
                 # On the first deploy, display next steps page.
                 node first_deploy.js
