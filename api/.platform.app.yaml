@@ -86,16 +86,3 @@ crons:
     spec: '*/19 * * * *'
     cmd: 'cd web ; drush core-cron'
 
-
-    
-# source:
-#   operations:
-#     auto-update:
-#       command: |
-#         curl -fsS https://raw.githubusercontent.com/platformsh/source-operations/main/setup.sh | { bash /dev/fd/3 sop-autoupdate; } 3<&0
-
-
-  # # build: |-
-  # #   set -e
-  # #   chmod +x platformsh-scripts/deploy.sh
-  # deploy: ./platformsh-scripts/deploy.sh
