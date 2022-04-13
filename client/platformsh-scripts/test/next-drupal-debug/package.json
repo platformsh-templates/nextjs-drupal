@@ -1,0 +1,13 @@
+{
+  "name": "next-drupal-oauth-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "debug": "node index.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.0.0"
+  }
+}

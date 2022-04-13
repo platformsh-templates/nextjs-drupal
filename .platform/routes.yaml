@@ -1,0 +1,20 @@
+https://api.{default}/:
+  type: upstream
+  upstream: "drupal:http"
+  id: "api"
+  cache:
+    enabled: true
+    cookies: ['/^SS?ESS/', '/^Drupal.visitor/']
+https://www.api.{default}/:
+  type: redirect
+  to: "https://api.{default}/"
+  
+https://www.{default}/:
+  type: redirect
+  to: "https://www.{default}/"
+https://{default}/:
+  type: upstream
+  primary: true
+  id: "client"
+  upstream: "nextjs:http"
+
