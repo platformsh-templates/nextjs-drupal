@@ -6,6 +6,7 @@ variables:
   env: 
     CREATE_DEMO_NODES: true
     CREATE_PATHAUTO_ALIASES: true
+    FOO: bar
 
 dependencies:
   php:
