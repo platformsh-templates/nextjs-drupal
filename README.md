@@ -597,7 +597,7 @@ After this line, two configuration files are shown - a `.env.local` and a `.envi
 This template is maintained primarily by the Platform.sh Developer Relations team, and they will be notified of all issues and pull requests you open here.
 
 - **Community:** Share your question with the community, or see if it's already been asked on our [Community site](https://community.platform.sh).
-- **Slack:** If you haven't done so already, you can join Platform.sh's [public Slack](https://chat.platform.sh/) channels and ping the `@devrel_team` with any questions.
+- **Slack:** If you haven't done so already, you can join Platform.sh's [public Discord](https://discord.gg/upsun) channels and ping the `@devrel_team` with any questions.
 
 ## Resources
 
@@ -626,7 +626,7 @@ See something that's wrong with this template that needs to be fixed? Something 
 <br />
 <p align="center">
     <a href="https://community.platform.sh"><strong>Ask the Platform.sh Community</strong></a><br />
-    <a href="https://chat.platform.sh"><strong>Join us on Slack</strong></a><br />
+    <a href="https://discord.gg/upsun"><strong>Join us on Discord</strong></a><br />
 </p>
 <br /><br />
 <h3 align="center"><strong>Thanks to all of our amazing contributors!</strong></h3>
